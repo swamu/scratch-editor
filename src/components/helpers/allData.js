@@ -302,7 +302,7 @@ const allData = [
     }),
     Component: () => {
       return (
-        <div className="flex flex-row flex-wrap justify-center items-center  text-xs">
+        <div className="flex flex-row flex-wrap justify-center items-center text-xs">
           Show
         </div>
       )

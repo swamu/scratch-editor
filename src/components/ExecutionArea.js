@@ -97,9 +97,10 @@ export default function ExecutionArea() {
     <div
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="border-dashed border-gray-300 h-full w-4/5 mt-5 px-4 flex flex-col">
-      <button onClick={onRunClicked}  className="text-green">
-       <Icon name='play' size={15} className="text-green mx-2" />
+      className="border-dashed border-gray-300 h-full w-4/5 mt-5 px-4 flex flex-col text-green-700 relative">
+      <div className="absolute text-gray-700 font-bold">( click &#9654; to play | re arrange order of commands here)</div>
+      <button onClick={onRunClicked} disabled={!currentItems.length} className="mt-4">
+       <Icon name='play' size={20} className="mx-2 my-4" />
       </button>
       {currentItems.map(({ Component, originalPos, type }, index) => (
         <Chip

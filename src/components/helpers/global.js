@@ -1,5 +1,5 @@
 export default function calculateInsertingPosition (e, droppedChips) {
-    const FixedTopExtras = 37;
+    const FixedTopExtras = 88;
     const ChipHeight = 28;
 
     const { top } = e.currentTarget.getBoundingClientRect();

@@ -1072,7 +1072,7 @@ const allData = [{
   }),
   Component: () => {
     return /*#__PURE__*/react.createElement("div", {
-      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+      className: "flex flex-row flex-wrap justify-center items-center text-xs"
     }, "Show");
   }
 }, {
@@ -1364,7 +1364,7 @@ function Sidebar() {
 }
 ;// CONCATENATED MODULE: ./src/components/helpers/global.js
 function calculateInsertingPosition(e, droppedChips) {
-  const FixedTopExtras = 37;
+  const FixedTopExtras = 88;
   const ChipHeight = 28;
   const {
     top
@@ -1486,14 +1486,17 @@ function ExecutionArea() {
   return /*#__PURE__*/react.createElement("div", {
     onDragOver: handleDragOver,
     onDrop: handleDrop,
-    className: "border-dashed border-gray-300 h-full w-4/5 mt-5 px-4 flex flex-col"
-  }, /*#__PURE__*/react.createElement("button", {
+    className: "border-dashed border-gray-300 h-full w-4/5 mt-5 px-4 flex flex-col text-green-700 relative"
+  }, /*#__PURE__*/react.createElement("div", {
+    className: "absolute text-gray-700 font-bold"
+  }, "( click \u25B6 to play | re arrange order of commands here)"), /*#__PURE__*/react.createElement("button", {
     onClick: onRunClicked,
-    className: "text-green"
+    disabled: !currentItems.length,
+    className: "mt-4"
   }, /*#__PURE__*/react.createElement(Icon, {
     name: "play",
-    size: 15,
-    className: "text-green mx-2"
+    size: 20,
+    className: "mx-2 my-4"
   })), currentItems.map((_ref2, index) => {
     let {
       Component,
@@ -1811,7 +1814,7 @@ function HistoryArea() {
     const items = [];
     for (let i = historyStack.length - 1; i >= 0; i--) {
       items.push( /*#__PURE__*/react.createElement("button", {
-        className: "bg-white rounded-lg shadow-md p-5 h-6 my-2",
+        className: "flex flex-row justify-center items-center bg-gradient-to-r from-green-500 to-blue-400 rounded-lg shadow-md p-5 h-6 my-2 text-white",
         key: "history - ".concat(items.length + 1),
         onClick: () => setCurrent(i)
       }, "History - ", items.length + 1));
@@ -1819,8 +1822,10 @@ function HistoryArea() {
     return items;
   };
   return /*#__PURE__*/react.createElement("div", {
-    className: "flex-none h-full overflow-y-auto p-2 absolute"
-  }, "History:", generateMapItemsInReverse());
+    className: "flex-none h-full overflow-y-auto p-2 absolute text-gray-700 font-bold"
+  }, "History:", /*#__PURE__*/react.createElement("div", {
+    className: "text-gray-700 font-bold"
+  }, "( click to copy to current stack)"), generateMapItemsInReverse());
 }
 ;// CONCATENATED MODULE: ./src/App.js
 
