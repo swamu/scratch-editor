@@ -1,6 +1,6 @@
 export default function calculateInsertingPosition (e, droppedChips) {
-    const FixedTopExtras = 32;
-    const ChipHeight = 32;
+    const FixedTopExtras = 37;
+    const ChipHeight = 28;
 
     const { top } = e.currentTarget.getBoundingClientRect();
     const mouseY = e.clientY - top;

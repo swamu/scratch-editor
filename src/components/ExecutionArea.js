@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Chip from "./global/Chip";
 import calculateInsertingPosition from "./helpers/global";
-import allOptionsData from "./helpers/allOptionsData";
+import allData from "./helpers/allData";
 import { useItemContext } from "./ItemsContext";
 import Icon from "./global/Icon";
 
@@ -46,7 +46,7 @@ export default function ExecutionArea() {
     const source = Number(e.dataTransfer.getData('source'),);
 
     const droppedChipPosition = calculateInsertingPosition(e, currentItems)
-    const chipData = allOptionsData[originalPos];
+    const chipData = allData[originalPos];
     const droppedChip = { ...chipData};
     const prevState = source === 0 ? {...optionItems[originalPos]} : {...currentStack[index]};
     const {newChips, newCurrentStack} = getChipsAndStack({
@@ -70,13 +70,13 @@ export default function ExecutionArea() {
   const onRunClicked = (e) => {
     const executeFunctions = async (index, tp) => {
       if (index < currentItems.length) {
-        const newTP = await currentItems[index].implement(currentStack[index], tp.position, tp.rotation);
+        const newTP = await currentItems[index].implement(currentStack[index], tp);
         setTransformProperties({...newTP});
         executeFunctions(index + 1, newTP);
       }
     };
     executeFunctions(0, transformProperties);
-    if (!historyStack.length || JSON.stringify(currentItems) !== JSON.stringify(historyStack[historyStack.length - 1])){
+    if (!historyStack.length && currentItems.length || JSON.stringify(currentItems) !== JSON.stringify(historyStack[historyStack.length - 1])){
       setHistoryStack([...historyStack, currentStack]);
       setHistoryItems([...historyItems, currentItems]);
     }
@@ -95,11 +95,11 @@ export default function ExecutionArea() {
     <div
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="border-dashed border-gray-300 h-full w-4/5 mt-5 px-9 flex flex-col">
-      <button onClick={onRunClicked}>
+      className="border-dashed border-gray-300 h-full w-4/5 mt-5 px-6 flex flex-col">
+      <button onClick={onRunClicked}  className="text-green">
        <Icon name='play' size={15} className="text-green mx-2" />
       </button>
-      {currentItems.map(({ Component, originalPos }, index) => (
+      {currentItems.map(({ Component, originalPos, type }, index) => (
         <Chip
           index={index}
           originalPos={originalPos}
@@ -107,6 +107,7 @@ export default function ExecutionArea() {
           showDelete
           onDelete={() => onDelete(index)}
           key={`${index}-mid-area`}
+          type={type}
         >
           <Component
             setSelectedValue={(key, value) => onValueSelected(key, value, index)}

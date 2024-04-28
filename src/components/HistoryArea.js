@@ -15,7 +15,7 @@ export default function HistoryArea() {
     for(let i = historyStack.length - 1 ; i>=0; i--){
       items.push(
         <button
-          className="bg-white rounded-lg shadow-md p-6 h-6 my-2"
+          className="bg-white rounded-lg shadow-md p-5 h-6 my-2"
           key={`history - ${items.length + 1}`}
           onClick={() => setCurrent(i)}
         >

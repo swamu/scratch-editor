@@ -600,14 +600,13 @@ function Chip(_ref) {
   })));
 }
 ;
-;// CONCATENATED MODULE: ./src/components/helpers/allOptionsData.js
+;// CONCATENATED MODULE: ./src/components/helpers/allData.js
 
 
-const allOptionsData = [{
+const allData = [{
   key: 'option-0',
   originalPos: 0,
   implement: (state, position, rotation) => {
-    console.log(position);
     return {
       position: {
         x: position.x + state.input,
@@ -755,7 +754,6 @@ const allOptionsData = [{
           x: glideX,
           y: glideY
         };
-        console.log(rotation);
         resolve({
           position: posNew,
           rotation
@@ -884,7 +882,7 @@ const allOptionsData = [{
     }));
   }
 }];
-/* harmony default export */ const helpers_allOptionsData = (allOptionsData);
+/* harmony default export */ const helpers_allData = (allData);
 ;// CONCATENATED MODULE: ./src/components/ItemsContext.js
 
 const ItemContext = /*#__PURE__*/(0,react.createContext)();
@@ -962,7 +960,7 @@ function Sidebar() {
   };
   return /*#__PURE__*/react.createElement("div", {
     className: " text-xs w-332 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200"
-  }, helpers_allOptionsData.map((_ref, index) => {
+  }, helpers_allData.map((_ref, index) => {
     let {
       Component,
       key,
@@ -1046,7 +1044,7 @@ function ExecutionArea() {
     const originalPos = Number(e.dataTransfer.getData('originalPos'));
     const source = Number(e.dataTransfer.getData('source'));
     const droppedChipPosition = calculateInsertingPosition(e, currentItems);
-    const chipData = helpers_allOptionsData[originalPos];
+    const chipData = helpers_allData[originalPos];
     const droppedChip = {
       ...chipData
     };
@@ -1079,7 +1077,7 @@ function ExecutionArea() {
   const onRunClicked = e => {
     const executeFunctions = async (index, tp) => {
       if (index < currentItems.length) {
-        const newTP = await currentItems[index].implement(currentStack[index], tp.position, tp.rotation);
+        const newTP = await currentItems[index].implement(currentStack[index], tp);
         setTransformProperties({
           ...newTP
         });

@@ -25,9 +25,11 @@ yarn-error.log*
 
 .bsb.lock
 .merlin
-# .netlify
 lib/bs
 public/*.LICENSE.txt
 package-lock.json
 # public/app.js
 # public/app.css
+
+# Local Netlify folder
+.netlify
