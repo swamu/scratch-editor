@@ -588,7 +588,7 @@ function Chip(_ref) {
     e.dataTransfer.setData('originalPos', originalPos.toString());
     e.dataTransfer.setData('source', source);
   };
-  const gradient = type === 'option' ? 'bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 shadow-lg border-2 border-blue-600 hover:scale-101 transition-transform duration-500 hover:bg-blue-600 hover:border-transparent hover:rotate-1' : 'bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 shadow-lg border-2 border-purple-600 hover:scale-105 transition-transform duration-300 hover:bg-purple-600 hover:text-white hover:border-transparent transform hover:rotate-2';
+  const gradient = type === 'option' ? 'bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 shadow-lg border-2 border-blue-600 hover:scale-101 transition-transform duration-300 hover:bg-blue-600 hover:border-transparent hover:rotate-1 transition-opacity duration-300 hover:opacity-60' : 'bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 shadow-lg border-2 border-purple-600 hover:scale-101 transition-transform duration-300 hover:bg-blue-600 hover:border-transparent hover:rotate-1 transition-opacity duration-300 hover:opacity-60';
   return /*#__PURE__*/react.createElement("div", {
     draggable: draggable,
     onDragStart: onDragStart,
@@ -1280,7 +1280,15 @@ function Sidebar() {
   const Looks = helpers_allData.filter(d => d.type === 'looks');
   return /*#__PURE__*/react.createElement("div", {
     className: " text-xs w-332 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200"
-  }, "------------- OPTIONS ------------------", Options.map((_ref, index) => {
+  }, /*#__PURE__*/react.createElement("div", {
+    class: "flex items-center w-full"
+  }, /*#__PURE__*/react.createElement("div", {
+    class: "flex-1 h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mr-4 shadow-md animate-pulse"
+  }), /*#__PURE__*/react.createElement("span", {
+    class: "text-gray-700 font-bold"
+  }, "Options"), /*#__PURE__*/react.createElement("div", {
+    class: "flex-1 h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full ml-4 shadow-md animate-pulse"
+  })), Options.map((_ref, index) => {
     let {
       Component,
       key,
@@ -1312,7 +1320,15 @@ function Sidebar() {
     checked: checkboxes.direction,
     onChange: () => handleCheckboxChange('direction'),
     label: "Show Direction"
-  }), "------------- LOOKS ------------------", Looks.map((_ref2, index) => {
+  }), /*#__PURE__*/react.createElement("div", {
+    class: "flex items-center w-full mt-10"
+  }, /*#__PURE__*/react.createElement("div", {
+    class: "flex-1 h-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mr-4 shadow-md animate-pulse"
+  }), /*#__PURE__*/react.createElement("span", {
+    class: "text-gray-700 font-bold"
+  }, "Looks"), /*#__PURE__*/react.createElement("div", {
+    class: "flex-1 h-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full ml-4 shadow-md animate-pulse"
+  })), Looks.map((_ref2, index) => {
     let {
       Component,
       key,
@@ -1454,7 +1470,7 @@ function ExecutionArea() {
       }
     };
     executeFunctions(0, transformProperties);
-    if (!historyStack.length && currentItems.length || JSON.stringify(currentItems) !== JSON.stringify(historyStack[historyStack.length - 1])) {
+    if (!historyItems.length && currentItems.length || JSON.stringify(currentItems) !== JSON.stringify(historyItems[historyItems.length - 1])) {
       setHistoryStack([...historyStack, currentStack]);
       setHistoryItems([...historyItems, currentItems]);
     }
@@ -1470,7 +1486,7 @@ function ExecutionArea() {
   return /*#__PURE__*/react.createElement("div", {
     onDragOver: handleDragOver,
     onDrop: handleDrop,
-    className: "border-dashed border-gray-300 h-full w-4/5 mt-5 px-6 flex flex-col"
+    className: "border-dashed border-gray-300 h-full w-4/5 mt-5 px-4 flex flex-col"
   }, /*#__PURE__*/react.createElement("button", {
     onClick: onRunClicked,
     className: "text-green"

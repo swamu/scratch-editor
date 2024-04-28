@@ -6,7 +6,7 @@ import Checkbox from "./global/Checkbox";
 
 export default function Sidebar() {
   const { optionItems, setOptionItems, handleCheckboxChange, checkboxes } = useItemContext();
-  
+
   const onValueSelected = (key, value, originalPos) => {
     let newOptionItmes = [...optionItems];
     newOptionItmes[originalPos][key] = value;
@@ -15,10 +15,14 @@ export default function Sidebar() {
 
   const Options = allData.filter(d => d.type === 'option');
   const Looks = allData.filter(d => d.type === 'looks');
-  
+
   return (
     <div className=" text-xs w-332 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200">
-      ------------- OPTIONS ------------------
+      <div class="flex items-center w-full">
+        <div class="flex-1 h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mr-4 shadow-md animate-pulse"></div>
+        <span class="text-gray-700 font-bold">Options</span>
+        <div class="flex-1 h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full ml-4 shadow-md animate-pulse"></div>
+      </div> 
       {
         Options.map(({ Component, key, originalPos, type }, index) => {
           return (<Chip
@@ -52,7 +56,12 @@ export default function Sidebar() {
         label="Show Direction"
       />
 
-      ------------- LOOKS ------------------
+      <div class="flex items-center w-full mt-10">
+        <div class="flex-1 h-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mr-4 shadow-md animate-pulse"></div>
+        <span class="text-gray-700 font-bold">Looks</span>
+        <div class="flex-1 h-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full ml-4 shadow-md animate-pulse"></div>
+      </div>
+
       {
         Looks.map(({ Component, key, originalPos, type }, index) => {
           return (<Chip

@@ -97,7 +97,7 @@ export default function ExecutionArea() {
     <div
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="border-dashed border-gray-300 h-full w-4/5 mt-5 px-6 flex flex-col">
+      className="border-dashed border-gray-300 h-full w-4/5 mt-5 px-4 flex flex-col">
       <button onClick={onRunClicked}  className="text-green">
        <Icon name='play' size={15} className="text-green mx-2" />
       </button>
