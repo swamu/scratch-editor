@@ -76,7 +76,9 @@ export default function ExecutionArea() {
       }
     };
     executeFunctions(0, transformProperties);
-    if (!historyStack.length && currentItems.length || JSON.stringify(currentItems) !== JSON.stringify(historyStack[historyStack.length - 1])){
+    if ((
+      !historyItems.length && currentItems.length)
+      || JSON.stringify(currentItems) !== JSON.stringify(historyItems[historyItems.length - 1])){
       setHistoryStack([...historyStack, currentStack]);
       setHistoryItems([...historyItems, currentItems]);
     }

@@ -50,6 +50,7 @@ export default function PreviewArea() {
       {checkboxes.costume && <div className={`${commonClass} top-24`}>Show Costume : {Backdrops[backdrop].name}</div>}
       {checkboxes.backdrop && <div className={`${commonClass} top-32`}>Show Backdrop : {Costumes[costume].name}</div>}
       {checkboxes.size && <div className={`${commonClass} top-40`}>Show Size : {scale * 100} %</div>}
+      
       <div className="flex-none overflow-y-auto p-2 absolute z-1" ref={previewAreaRef} style={{
         left: getAdjustedPosition('x'),
         top: getAdjustedPosition('y'),

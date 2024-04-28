@@ -9,8 +9,8 @@ export default function Chip({ children, originalPos, source, index, showDelete,
     };
 
     const gradient =  type === 'option' 
-    ? 'bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 shadow-lg border-2 border-blue-600 hover:scale-101 transition-transform duration-500 hover:bg-blue-600 hover:border-transparent hover:rotate-1'
-    : 'bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 shadow-lg border-2 border-purple-600 hover:scale-105 transition-transform duration-300 hover:bg-purple-600 hover:text-white hover:border-transparent transform hover:rotate-2'
+    ? 'bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 shadow-lg border-2 border-blue-600 hover:scale-101 transition-transform duration-300 hover:bg-blue-600 hover:border-transparent hover:rotate-1 transition-opacity duration-300 hover:opacity-60'
+    : 'bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 shadow-lg border-2 border-purple-600 hover:scale-101 transition-transform duration-300 hover:bg-blue-600 hover:border-transparent hover:rotate-1 transition-opacity duration-300 hover:opacity-60'
 
     return (
 
