@@ -579,17 +579,20 @@ function Chip(_ref) {
     source,
     index,
     showDelete,
-    onDelete
+    onDelete,
+    type,
+    draggable = true
   } = _ref;
   const onDragStart = e => {
     e.dataTransfer.setData('index', index.toString());
     e.dataTransfer.setData('originalPos', originalPos.toString());
     e.dataTransfer.setData('source', source);
   };
+  const gradient = type === 'option' ? 'bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 shadow-lg border-2 border-blue-600 hover:scale-101 transition-transform duration-500 hover:bg-blue-600 hover:border-transparent hover:rotate-1' : 'bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 shadow-lg border-2 border-purple-600 hover:scale-105 transition-transform duration-300 hover:bg-purple-600 hover:text-white hover:border-transparent transform hover:rotate-2';
   return /*#__PURE__*/react.createElement("div", {
-    draggable: true,
+    draggable: draggable,
     onDragStart: onDragStart,
-    className: "flex flex-row flex-wrap rounded bg-gradient-to-r from-purple-500 to-pink-500 text-white px-1 py-1.5 my-1 text-sm cursor-grab"
+    className: "flex flex-row flex-wrap rounded ".concat(gradient, " text-white px-1 py-1.5 my-1 text-sm cursor-grab")
   }, children, showDelete && /*#__PURE__*/react.createElement("button", {
     className: "ml-auto",
     onClick: onDelete
@@ -600,19 +603,77 @@ function Chip(_ref) {
   })));
 }
 ;
+;// CONCATENATED MODULE: ./src/components/helpers/consts.js
+const Backdrops = [{
+  name: 'None',
+  class: '',
+  value: 0
+}, {
+  name: 'Electric Blue',
+  class: 'bg-gradient-to-r from-blue-500 to-blue-600',
+  value: 1
+}, {
+  name: 'Cotton Candy',
+  class: 'bg-gradient-to-r from-blue-500 to-pink-600',
+  value: 2
+}, {
+  name: 'Bubblegum',
+  class: 'bg-gradient-to-r from-pink-500 to-pink-600',
+  value: 3
+}, {
+  name: 'Banana Split',
+  class: 'bg-gradient-to-r from-yellow-500 to-blue-600',
+  value: 4
+}, {
+  name: 'Emerald City',
+  class: 'bg-gradient-to-r from-green-500 to-blue-600',
+  value: 5
+}, {
+  name: 'Disco Inferno',
+  class: 'bg-gradient-to-r from-blue-500 to-pink-600',
+  value: 6
+}, {
+  name: 'Sunset Boulevard',
+  class: 'bg-gradient-to-r from-yellow-500 to-pink-600',
+  value: 7
+}, {
+  name: 'Cinnamon Roll',
+  class: 'bg-gradient-to-r from-brown-500 to-yellow-600',
+  value: 8
+}, {
+  name: 'Strawberry Cheesecake',
+  class: 'bg-gradient-to-r from-pink-500 to-brown-600',
+  value: 9
+}, {
+  name: 'Neon Jungle',
+  class: 'bg-gradient-to-r from-blue-500 to-green-600',
+  value: 10
+}];
+const Costumes = [{
+  name: 'Dancing Stume',
+  value: 0
+}, {
+  name: 'Walking Stume',
+  value: 1
+}];
 ;// CONCATENATED MODULE: ./src/components/helpers/allData.js
+
 
 
 const allData = [{
   key: 'option-0',
+  type: 'option',
   originalPos: 0,
-  implement: (state, position, rotation) => {
+  implement: (state, transformProps) => {
+    const {
+      position
+    } = transformProps;
     return {
+      ...transformProps,
       position: {
         x: position.x + state.input,
         y: position.y
-      },
-      rotation
+      }
     };
   },
   Component: _ref => {
@@ -631,12 +692,16 @@ const allData = [{
   }
 }, {
   key: 'option-1',
+  type: 'option',
   originalPos: 1,
-  implement: (state, position, rotation) => {
+  implement: (state, transformProps) => {
+    const {
+      rotation
+    } = transformProps;
     const degrees = state.input;
     const newRotation = rotation - degrees;
     return {
-      position,
+      ...transformProps,
       rotation: newRotation
     };
   },
@@ -660,12 +725,16 @@ const allData = [{
   }
 }, {
   key: 'option-2',
+  type: 'option',
   originalPos: 2,
-  implement: (state, position, rotation) => {
+  implement: (state, transformProps) => {
+    const {
+      rotation
+    } = transformProps;
     const degrees = state.input;
     const newRotation = rotation + degrees;
     return {
-      position,
+      ...transformProps,
       rotation: newRotation
     };
   },
@@ -689,16 +758,17 @@ const allData = [{
   }
 }, {
   key: 'option-3',
+  type: 'option',
   originalPos: 3,
-  implement: (state, _position, rotation) => {
+  implement: (state, transformProps) => {
     const x = state.inputX;
     const y = state.inputY;
     return {
+      ...transformProps,
       position: {
         x,
         y
-      },
-      rotation
+      }
     };
   },
   Component: _ref4 => {
@@ -722,9 +792,10 @@ const allData = [{
   }
 }, {
   key: 'option-4',
+  type: 'option',
   originalPos: 4,
-  implement: (state, position, _rotation) => ({
-    position,
+  implement: (state, transformProps) => ({
+    ...transformProps,
     rotation: state.input
   }),
   Component: _ref5 => {
@@ -743,8 +814,13 @@ const allData = [{
   }
 }, {
   key: 'option-5',
+  type: 'option',
   originalPos: 5,
-  implement: async (state, position, rotation) => {
+  implement: async (state, transformProps) => {
+    const {
+      position,
+      rotation
+    } = transformProps;
     let posNew = position;
     const glideX = parseInt(state.inputX);
     const glideY = parseInt(state.inputY);
@@ -755,8 +831,8 @@ const allData = [{
           y: glideY
         };
         resolve({
-          position: posNew,
-          rotation
+          ...transformProps,
+          position: posNew
         });
       }, parseInt(state.inputSeconds) * 1000);
     });
@@ -787,13 +863,14 @@ const allData = [{
   }
 }, {
   key: 'option-6',
+  type: 'option',
   originalPos: 6,
-  implement: (state, position, rotation) => ({
+  implement: (state, transformProps) => ({
+    ...transformProps,
     position: {
       x: position.x + state.input,
       y: position.y
-    },
-    rotation
+    }
   }),
   Component: _ref7 => {
     let {
@@ -811,13 +888,14 @@ const allData = [{
   }
 }, {
   key: 'option-7',
+  type: 'option',
   originalPos: 7,
-  implement: (state, position, rotation) => ({
+  implement: (state, transformProps) => ({
+    ...transformProps,
     position: {
       x: state.input,
       y: position.y
-    },
-    rotation
+    }
   }),
   Component: _ref8 => {
     let {
@@ -835,13 +913,14 @@ const allData = [{
   }
 }, {
   key: 'option-8',
+  type: 'option',
   originalPos: 6,
-  implement: (state, position, rotation) => ({
+  implement: (state, transformProps) => ({
+    ...transformProps,
     position: {
       x: position.x,
       y: position.y + state.input
-    },
-    rotation
+    }
   }),
   Component: _ref9 => {
     let {
@@ -859,13 +938,14 @@ const allData = [{
   }
 }, {
   key: 'option-9',
+  type: 'option',
   originalPos: 9,
-  implement: (state, position, rotation) => ({
+  implement: (state, transformProps) => ({
+    ...transformProps,
     position: {
       x: position.x,
       y: state.input
-    },
-    rotation
+    }
   }),
   Component: _ref10 => {
     let {
@@ -881,9 +961,215 @@ const allData = [{
       onChange: e => setSelectedValue('input', Number(e.target.value))
     }));
   }
+}, {
+  key: 'looks-0',
+  type: 'looks',
+  originalPos: 10,
+  implement: (state, transformProps) => ({
+    ...transformProps,
+    scale: 1 + state.input * 0.01
+  }),
+  Component: _ref11 => {
+    let {
+      setSelectedValue,
+      selectedValue
+    } = _ref11;
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+    }, "Change size by", /*#__PURE__*/react.createElement("input", {
+      className: "rounded text-black w-10 mx-3 my-0.1 px-1",
+      type: "number",
+      value: selectedValue.input,
+      onChange: e => setSelectedValue('input', Number(e.target.value))
+    }));
+  }
+}, {
+  key: 'looks-1',
+  type: 'looks',
+  originalPos: 11,
+  implement: (state, transformProps) => ({
+    ...transformProps,
+    scale: state.input * 0.01
+  }),
+  Component: _ref12 => {
+    let {
+      setSelectedValue,
+      selectedValue
+    } = _ref12;
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+    }, "Change size to", /*#__PURE__*/react.createElement("input", {
+      className: "rounded text-black w-10 mx-3 my-0.1 px-1",
+      type: "number",
+      value: selectedValue.input,
+      onChange: e => setSelectedValue('input', Number(e.target.value))
+    }), "%");
+  }
+}, {
+  key: 'looks-2',
+  type: 'looks',
+  originalPos: 12,
+  implement: (_, transformProps) => ({
+    ...transformProps,
+    scale: 1,
+    costume: Costumes[0].value,
+    backdrop: Backdrops[0].value
+  }),
+  Component: () => {
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+    }, "Clear");
+  }
+}, {
+  key: 'looks-3',
+  type: 'looks',
+  originalPos: 13,
+  implement: (_, transformProps) => ({
+    ...transformProps,
+    costume: transformProps.costume ? 0 : 1
+  }),
+  Component: () => {
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+    }, "Next Costume");
+  }
+}, {
+  key: 'looks-4',
+  type: 'looks',
+  originalPos: 14,
+  implement: (state, transformProps) => ({
+    ...transformProps,
+    costume: state.input
+  }),
+  Component: _ref13 => {
+    let {
+      setSelectedValue,
+      selectedValue
+    } = _ref13;
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center text-xs"
+    }, "Change Costume", /*#__PURE__*/react.createElement("select", {
+      className: "text-black appearance-none bg-white border border-gray-400 hover:border-gray-500 px-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline ml-2",
+      value: selectedValue.input.toString(),
+      onChange: e => {
+        setSelectedValue('input', Number(e.target.value));
+      }
+    }, /*#__PURE__*/react.createElement("option", {
+      className: "rounded text-black w-10 mx-3 px-1",
+      value: "".concat(Costumes[0].value)
+    }, " ", Costumes[0].name, " "), /*#__PURE__*/react.createElement("option", {
+      className: "rounded text-black w-10 mx-3 px-1",
+      value: "".concat(Costumes[1].value)
+    }, " ", Costumes[1].name, " ")));
+  }
+}, {
+  key: 'looks-5',
+  type: 'looks',
+  originalPos: 15,
+  implement: (_, transformProps) => ({
+    ...transformProps,
+    scale: 1
+  }),
+  Component: () => {
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+    }, "Show");
+  }
+}, {
+  key: 'looks-6',
+  type: 'looks',
+  originalPos: 16,
+  implement: (_, transformProps) => ({
+    ...transformProps,
+    scale: 0
+  }),
+  Component: () => {
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+    }, "Hide");
+  }
+}, {
+  key: 'looks-7',
+  type: 'looks',
+  originalPos: 17,
+  implement: (state, transformProps) => ({
+    ...transformProps,
+    backdrop: state.input
+  }),
+  Component: _ref14 => {
+    let {
+      setSelectedValue,
+      selectedValue
+    } = _ref14;
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center text-xs"
+    }, "Change Backdrops", /*#__PURE__*/react.createElement("select", {
+      className: "text-black appearance-none bg-white border border-gray-400 hover:border-gray-500 px-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline ml-2",
+      value: selectedValue.input.toString(),
+      onChange: e => setSelectedValue('input', Number(e.target.value))
+    }, Backdrops.map(_ref15 => {
+      let {
+        value,
+        name
+      } = _ref15;
+      return /*#__PURE__*/react.createElement("option", {
+        className: "rounded text-black mx-3 my-0 px-1 text-xs",
+        value: "".concat(value)
+      }, " ", name, " ");
+    })));
+  }
+}, {
+  key: 'looks-8',
+  type: 'looks',
+  originalPos: 18,
+  implement: (_, transformProps) => ({
+    ...transformProps,
+    backdrop: transformProps.backdrop === Backdrops.length - 1 ? 0 : transformProps.backdrop + 1
+  }),
+  Component: () => {
+    return /*#__PURE__*/react.createElement("div", {
+      className: "flex flex-row flex-wrap justify-center items-center  text-xs"
+    }, "Next Backdrop");
+  }
 }];
 /* harmony default export */ const helpers_allData = (allData);
+;// CONCATENATED MODULE: ./src/components/helpers/initState.js
+
+const initState = [{
+  input: 10
+}, {
+  input: 10
+}, {
+  input: 10
+}, {
+  inputX: 10,
+  inputY: 10
+}, {
+  input: 10
+}, {
+  inputSeconds: 2,
+  inputX: 10,
+  inputY: 10
+}, {
+  input: 10
+}, {
+  input: 10
+}, {
+  input: 10
+}, {
+  input: 10
+}, {
+  input: 10
+}, {
+  input: 10
+}, {}, {}, {
+  input: Costumes[0].value
+}, {}, {}, {
+  input: Backdrops[0].value
+}, {}];
 ;// CONCATENATED MODULE: ./src/components/ItemsContext.js
+
+
 
 const ItemContext = /*#__PURE__*/(0,react.createContext)();
 const useItemContext = () => (0,react.useContext)(ItemContext);
@@ -896,32 +1182,26 @@ const ItemProvider = _ref => {
       x: 0,
       y: 0
     },
-    rotation: 0
+    rotation: 0,
+    scale: 1,
+    costume: Costumes[0].value,
+    backdrop: Backdrops[0].value
   });
-  const [optionItems, setOptionItems] = (0,react.useState)([{
-    input: 10
-  }, {
-    input: 10
-  }, {
-    input: 10
-  }, {
-    inputX: 10,
-    inputY: 10
-  }, {
-    input: 10
-  }, {
-    inputSeconds: 2,
-    inputX: 10,
-    inputY: 10
-  }, {
-    input: 10
-  }, {
-    input: 10
-  }, {
-    input: 10
-  }, {
-    input: 10
-  }]);
+  const [optionItems, setOptionItems] = (0,react.useState)(initState);
+  const [checkboxes, setCheckboxes] = (0,react.useState)({
+    x: false,
+    y: false,
+    direction: false,
+    costume: false,
+    backdrop: false,
+    size: false
+  });
+  const handleCheckboxChange = checkboxName => {
+    setCheckboxes(prevCheckboxes => ({
+      ...prevCheckboxes,
+      [checkboxName]: !prevCheckboxes[checkboxName]
+    }));
+  };
   const [historyStack, setHistoryStack] = (0,react.useState)([]);
   const [historyItems, setHistoryItems] = (0,react.useState)([]);
   const [currentStack, setCurrentStack] = (0,react.useState)([]);
@@ -939,11 +1219,47 @@ const ItemProvider = _ref => {
       currentItems,
       setCurrentItems,
       historyItems,
-      setHistoryItems
+      setHistoryItems,
+      checkboxes,
+      handleCheckboxChange
     }
   }, children);
 };
+;// CONCATENATED MODULE: ./src/components/global/Checkbox.js
+// Checkbox.js
+
+
+const Checkbox = _ref => {
+  let {
+    label,
+    checked,
+    onChange,
+    type
+  } = _ref;
+  return /*#__PURE__*/react.createElement("div", {
+    className: "flex flex-row flex-wrap justify-center items-center text-xs"
+  }, /*#__PURE__*/react.createElement("input", {
+    type: "checkbox",
+    className: "form-checkbox text-black mx-0.1 my-0.1 px-1",
+    checked: checked,
+    onChange: onChange
+  }), /*#__PURE__*/react.createElement("div", {
+    className: "mx-2"
+  }, /*#__PURE__*/react.createElement(Chip, {
+    index: 0,
+    originalPos: 0,
+    source: "1",
+    draggable: false,
+    showDelete: false,
+    onDelete: () => onDelete(index),
+    type: type
+  }, /*#__PURE__*/react.createElement("div", {
+    className: "px-2 text-xs"
+  }, label))));
+};
+/* harmony default export */ const global_Checkbox = (Checkbox);
 ;// CONCATENATED MODULE: ./src/components/Sidebar.js
+
 
 
 
@@ -951,36 +1267,89 @@ const ItemProvider = _ref => {
 function Sidebar() {
   const {
     optionItems,
-    setOptionItems
+    setOptionItems,
+    handleCheckboxChange,
+    checkboxes
   } = useItemContext();
   const onValueSelected = (key, value, originalPos) => {
     let newOptionItmes = [...optionItems];
     newOptionItmes[originalPos][key] = value;
     setOptionItems(newOptionItmes);
   };
+  const Options = helpers_allData.filter(d => d.type === 'option');
+  const Looks = helpers_allData.filter(d => d.type === 'looks');
   return /*#__PURE__*/react.createElement("div", {
     className: " text-xs w-332 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200"
-  }, helpers_allData.map((_ref, index) => {
+  }, "------------- OPTIONS ------------------", Options.map((_ref, index) => {
     let {
       Component,
       key,
-      originalPos
+      originalPos,
+      type
     } = _ref;
     return /*#__PURE__*/react.createElement(Chip, {
       key: key,
       index: index,
       originalPos: originalPos,
-      source: "0"
+      source: "0",
+      type: type
     }, /*#__PURE__*/react.createElement(Component, {
       setSelectedValue: (key, value) => onValueSelected(key, value, originalPos),
       selectedValue: optionItems[originalPos]
     }));
+  }), /*#__PURE__*/react.createElement(global_Checkbox, {
+    type: "option",
+    checked: checkboxes.x,
+    onChange: () => handleCheckboxChange('x'),
+    label: "Show X"
+  }), /*#__PURE__*/react.createElement(global_Checkbox, {
+    type: "option",
+    checked: checkboxes.y,
+    onChange: () => handleCheckboxChange('y'),
+    label: "Show Y"
+  }), /*#__PURE__*/react.createElement(global_Checkbox, {
+    type: "option",
+    checked: checkboxes.direction,
+    onChange: () => handleCheckboxChange('direction'),
+    label: "Show Direction"
+  }), "------------- LOOKS ------------------", Looks.map((_ref2, index) => {
+    let {
+      Component,
+      key,
+      originalPos,
+      type
+    } = _ref2;
+    return /*#__PURE__*/react.createElement(Chip, {
+      key: key,
+      index: index + Options.length,
+      originalPos: originalPos,
+      source: "0",
+      type: type
+    }, /*#__PURE__*/react.createElement(Component, {
+      setSelectedValue: (key, value) => onValueSelected(key, value, originalPos),
+      selectedValue: optionItems[originalPos]
+    }));
+  }), /*#__PURE__*/react.createElement(global_Checkbox, {
+    option: "looks",
+    checked: checkboxes.costume,
+    onChange: () => handleCheckboxChange('costume'),
+    label: "Show Costume"
+  }), /*#__PURE__*/react.createElement(global_Checkbox, {
+    option: "looks",
+    checked: checkboxes.backdrop,
+    onChange: () => handleCheckboxChange('backdrop'),
+    label: "Show Backdrop"
+  }), /*#__PURE__*/react.createElement(global_Checkbox, {
+    option: "looks",
+    checked: checkboxes.size,
+    onChange: () => handleCheckboxChange('size'),
+    label: "Show Size"
   }));
 }
 ;// CONCATENATED MODULE: ./src/components/helpers/global.js
 function calculateInsertingPosition(e, droppedChips) {
-  const FixedTopExtras = 32;
-  const ChipHeight = 32;
+  const FixedTopExtras = 37;
+  const ChipHeight = 28;
   const {
     top
   } = e.currentTarget.getBoundingClientRect();
@@ -1085,7 +1454,7 @@ function ExecutionArea() {
       }
     };
     executeFunctions(0, transformProperties);
-    if (!historyStack.length || JSON.stringify(currentItems) !== JSON.stringify(historyStack[historyStack.length - 1])) {
+    if (!historyStack.length && currentItems.length || JSON.stringify(currentItems) !== JSON.stringify(historyStack[historyStack.length - 1])) {
       setHistoryStack([...historyStack, currentStack]);
       setHistoryItems([...historyItems, currentItems]);
     }
@@ -1101,9 +1470,10 @@ function ExecutionArea() {
   return /*#__PURE__*/react.createElement("div", {
     onDragOver: handleDragOver,
     onDrop: handleDrop,
-    className: "border-dashed border-gray-300 h-full w-4/5 mt-5 px-9 flex flex-col"
+    className: "border-dashed border-gray-300 h-full w-4/5 mt-5 px-6 flex flex-col"
   }, /*#__PURE__*/react.createElement("button", {
-    onClick: onRunClicked
+    onClick: onRunClicked,
+    className: "text-green"
   }, /*#__PURE__*/react.createElement(Icon, {
     name: "play",
     size: 15,
@@ -1111,7 +1481,8 @@ function ExecutionArea() {
   })), currentItems.map((_ref2, index) => {
     let {
       Component,
-      originalPos
+      originalPos,
+      type
     } = _ref2;
     return /*#__PURE__*/react.createElement(Chip, {
       index: index,
@@ -1119,7 +1490,8 @@ function ExecutionArea() {
       source: "1",
       showDelete: true,
       onDelete: () => onDelete(index),
-      key: "".concat(index, "-mid-area")
+      key: "".concat(index, "-mid-area"),
+      type: type
     }, /*#__PURE__*/react.createElement(Component, {
       setSelectedValue: (key, value) => onValueSelected(key, value, index),
       selectedValue: currentStack[index]
@@ -1129,7 +1501,10 @@ function ExecutionArea() {
 ;
 ;// CONCATENATED MODULE: ./src/components/global/CatSprite.js
 
-function CatSprite() {
+function CatSprite(_ref) {
+  let {
+    costume
+  } = _ref;
   return /*#__PURE__*/react.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     width: "95.17898101806641",
@@ -1141,10 +1516,6 @@ function CatSprite() {
     id: "Page-1",
     stroke: "none",
     fillRule: "evenodd"
-  }, /*#__PURE__*/react.createElement("g", {
-    id: "costume1"
-  }, /*#__PURE__*/react.createElement("g", {
-    id: "costume1.1"
   }, /*#__PURE__*/react.createElement("g", {
     id: "tail"
   }, /*#__PURE__*/react.createElement("path", {
@@ -1177,7 +1548,7 @@ function CatSprite() {
     strokeLinejoin: "round"
   }), /*#__PURE__*/react.createElement("g", {
     id: "body-and-leg"
-  }, /*#__PURE__*/react.createElement("path", {
+  }, costume === 1 ? /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("path", {
     d: "M 46.2 76.7 C 47.4 75.8 48.6 74.3 50.2 72 C 51.5 70.1 52.9 66.4 52.9 66.4 C 53.8 63.9 54.4 59.1 51.1 59.2 C 48.9 59.3 46.9 59 43.5 58.5 C 37.5 57.3 36.4 56.5 33.9 60.6 C 31.2 65.4 24.3 68.9 32.8 77.2 C 32.8 77.2 37.7 81 43.6 86.8 C 47.6 90.7 53.9 96.3 56.1 98.2 C 56.6 98.6 57.2 98.8 57.8 98.9 C 67.5 99.8 74.7 98.8 74.7 94.5 C 74.7 87.3 60.4 89.8 60.4 89.8 C 60.4 89.8 55.8 85.9 53.7 84 L 46.2 76.7 Z ",
     id: "body",
     stroke: "#001026",
@@ -1190,7 +1561,22 @@ function CatSprite() {
     id: "tummy",
     fill: "#FFFFFF",
     strokeWidth: "1"
-  })), /*#__PURE__*/react.createElement("path", {
+  })) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("path", {
+    d: "M 46.2 76.7 C 47.4 75.8 48.6 74.3 50.2 72 C 51.5 70.1 52.9 66.4 52.9 66.4 C 53.8 63.9 54.4 59.1 51.1 59.2 C 48.9 59.3 46.9 59 43.5 58.5 C 37.5 57.3 36.4 56.5 33.9 60.6 C 31.2 65.4 24.3 68.9 32.8 77.2 C 32.8 77.2 37.7 81 43.6 86.8 C 47.6 90.7 53.9 96.3 56.1 98.2 C 56.6 98.6 57.2 98.8 57.8 98.9 C 67.5 99.8 74.7 98.8 74.7 94.5 C 74.7 87.3 60.4 89.8 60.4 89.8 C 60.4 89.8 55.8 85.9 53.7 84 L 46.2 76.7 Z",
+    id: "body",
+    stroke: "#001026",
+    strokeWidth: "1.2",
+    fill: "#FFAB19",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    transform: "rotate(-10, 32.8, 77.2)" // Rotate the body by -10 degrees around the point (32.8, 77.2)
+  }), /*#__PURE__*/react.createElement("path", {
+    d: "M 50.6 70 C 50.6 70 52.5 67.5 48.2 64.8 C 43.7 61.9 42 65.1 40.2 67.5 C 38.2 70.6 40.2 72.1 42.2 73.9 C 43.8 75.4 45.3 76.6 45.3 76.6 C 45.3 76.6 48.4 74.5 50.6 70 Z ",
+    id: "tummy",
+    fill: "#FFFFFF",
+    strokeWidth: "1",
+    transform: "rotate(-10, 42.8, 72)" // Rotate the tummy by -10 degrees around the point (42.8, 72)
+  }))), /*#__PURE__*/react.createElement("path", {
     d: "M30.2,68.4 C32.4,71.2 35.8,74.7 31.5,77.6 C25.6,80.9 20.7,70.9 19.7,67.4 C18.8,64.3 21.4,62.3 23.6,60.6 C27.9,57.5 31.5,54.7 35.5,56.2 C40.5,58 36.9,62 34.4,63.8 C32.9,64.9 31.4,66.1 30.3,66.8 C30,67.3 29.9,67.9 30.2,68.4 Z",
     id: "arm",
     stroke: "#001026",
@@ -1287,9 +1673,10 @@ function CatSprite() {
     id: "pupil",
     fill: "#001026",
     strokeWidth: "1"
-  }))))))));
+  }))))));
 }
 ;// CONCATENATED MODULE: ./src/components/PreviewArea.js
+
 
 
 
@@ -1297,7 +1684,8 @@ function PreviewArea() {
   const previewAreaRef = (0,react.useRef)(null);
   const {
     transformProperties,
-    setTransformProperties
+    setTransformProperties,
+    checkboxes
   } = useItemContext();
   const [previewAreaDimensions, setPreviewAreaDimensions] = (0,react.useState)({
     width: 0,
@@ -1355,17 +1743,39 @@ function PreviewArea() {
     return position;
   };
   const {
-    rotation
+    rotation,
+    scale,
+    costume,
+    backdrop,
+    position
   } = transformProperties;
+  const commonClass = 'absolute z-10 bg-gradient-to-br from-blue-700 to-blue-300 py-1 text-white px-2 w-1/3 rounded';
   return /*#__PURE__*/react.createElement("div", {
-    className: "flex-none overflow-y-auto p-2 absolute",
+    className: "w-full h-full ".concat(Backdrops[backdrop].class)
+  }, checkboxes.x && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(commonClass, " top-0")
+  }, "Show X : ", position.x, " "), checkboxes.y && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(commonClass, " top-8")
+  }, "Show Y :  ", position.y, " "), checkboxes.direction && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(commonClass, " top-16")
+  }, "Show Direction : ", rotation, " "), checkboxes.costume && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(commonClass, " top-24")
+  }, "Show Costume : ", Backdrops[backdrop].name), checkboxes.backdrop && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(commonClass, " top-32")
+  }, "Show Backdrop : ", Costumes[costume].name), checkboxes.size && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(commonClass, " top-40")
+  }, "Show Size : ", scale * 100, " %"), /*#__PURE__*/react.createElement("div", {
+    className: "flex-none overflow-y-auto p-2 absolute z-1",
     ref: previewAreaRef,
     style: {
       left: getAdjustedPosition('x'),
       top: getAdjustedPosition('y'),
-      transform: "rotate(".concat(rotation, "deg)")
+      transform: "rotate(".concat(rotation, "deg) scale(").concat(scale, ")"),
+      transformOrigin: '0% 0% 0px'
     }
-  }, /*#__PURE__*/react.createElement(CatSprite, null));
+  }, /*#__PURE__*/react.createElement(CatSprite, {
+    costume: costume
+  })));
 }
 ;// CONCATENATED MODULE: ./src/components/HistoryArea.js
 
@@ -1385,7 +1795,7 @@ function HistoryArea() {
     const items = [];
     for (let i = historyStack.length - 1; i >= 0; i--) {
       items.push( /*#__PURE__*/react.createElement("button", {
-        className: "bg-white rounded-lg shadow-md p-6 h-6 my-2",
+        className: "bg-white rounded-lg shadow-md p-5 h-6 my-2",
         key: "history - ".concat(items.length + 1),
         onClick: () => setCurrent(i)
       }, "History - ", items.length + 1));
@@ -1424,7 +1834,6 @@ function App() {
 
 
 
-console.log("hi");
 react_dom.render( /*#__PURE__*/react.createElement(react.StrictMode, null, /*#__PURE__*/react.createElement(App, null)), document.getElementById("root"));
 })();
 
